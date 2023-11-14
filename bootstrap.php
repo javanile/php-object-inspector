@@ -12,9 +12,9 @@ function debug_object_inspector($object)
     foreach ($reflection->getProperties() as $property) {
         $prefix = '';
         if ($property->isPrivate()) {
-            $prefix = '@(private) ';
+            $prefix = '$[private] ';
         } elseif ($property->isProtected()) {
-            $prefix = '@(protected) ';
+            $prefix = '$[protected] ';
         }
 
         $name = $property->getName();
@@ -26,7 +26,18 @@ function debug_object_inspector($object)
     }
 
     foreach ($reflection->getMethods() as $method) {
-
+        $prefix = '@[';
+        if ($method->isStatic()) {
+            $prefix .= 'static ';
+        }
+        if ($method->isPrivate()) {
+            $prefix .= 'private ';
+        } elseif ($method->isProtected()) {
+            $prefix .= 'protected ';
+        }
+        $prefix .= 'function] ';
+        $name = $method->getName();
+        $debugObject[$prefix.$name.'()'] = 'function';
     }
 
     ksort($debugObject);
