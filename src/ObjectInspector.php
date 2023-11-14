@@ -54,20 +54,24 @@ class ObjectInspector
         return $debugObject;
     }
 
-    public static function inspectRecursive($array)
+    public static function inspectRecursive($array, $depth = 256)
     {
+        if ($depth <= 0) {
+            return $array;
+        }
+
         $debugObject = $array;
 
         if (is_object($array)) {
             $debugObject = self::inspect($array);
             foreach ($debugObject as $field => $value) {
                 if (is_object($value) || is_array($value)) {
-                    $debugObject[$field] = self::inspectRecursive($value);
+                    $debugObject[$field] = self::inspectRecursive($value, $depth - 1);
                 }
             }
         } elseif (is_array($array)) {
             foreach ($array as $key => $value) {
-                $debugObject[$key] = self::inspectRecursive($value);
+                $debugObject[$key] = self::inspectRecursive($value, $depth - 1);
             }
         }
 
