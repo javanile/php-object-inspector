@@ -1,6 +1,7 @@
 <?php
 
 require_once 'bootstrap.php';
+require_once 'src/ObjectInspector.php';
 
 $jsonFlags = JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE | JSON_PRETTY_PRINT;
 
