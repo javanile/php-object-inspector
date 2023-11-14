@@ -37,7 +37,12 @@ function debug_object_inspector($object)
         }
         $prefix .= 'function] ';
         $name = $method->getName();
-        $debugObject[$prefix.$name.'()'] = 'function';
+        $debugParams = [];
+        $params = $method->getParameters();
+        foreach ($params as $param) {
+            $debugParams[] = $param->isOptional() ? '$'.$param->getName().' = '.json_encode($param->getDefaultValue()) : '$'.$param->getName();
+        }
+        $debugObject[$prefix.$name.'('.implode(', ', $debugParams).')'] = 'Declared at '.$method->getFileName().':'.$method->getStartLine();
     }
 
     ksort($debugObject);

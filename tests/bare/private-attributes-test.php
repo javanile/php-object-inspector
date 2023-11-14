@@ -48,6 +48,11 @@ class MyClass3
     private $privateAttribute = 'private';
     protected $protectedAttribute = 'protected';
     public $publicAttribute = 'public';
+
+    public static function staticFunction($a, $b = null)
+    {
+        return "staticFunction";
+    }
 }
 
 $myObject = new MyClass1();
